@@ -1,3 +1,5 @@
 PROJECT_ROOT = File.dirname(__FILE__) + "/../.."
 
-require PROJECT_ROOT + '/app/dollhouse.rb'
+Dir.glob(PROJECT_ROOT + '/app/*.rb').each { |f| require f }
+
+Dollhouse.cloud_adapter = TestCloudAdapter.new
