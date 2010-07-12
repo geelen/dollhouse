@@ -8,4 +8,8 @@ The idea of a deployment is a record of exactly what's up there, right now, runn
 
 ## Server Types
 
-This is what you build your server from. A sequence of Babushka deps and inputs. Order is usally important, sometimes local actions need to be run too. Usually expecting the remote process to be running as root, but often deps need to be run as other users too.
+This is what you build your server from. A sequence of Babushka deps and inputs. Order is usually important, sometimes local actions need to be run too. Usually expecting the remote process to be running as root, but often deps need to be run as other users too.
+
+## Servers
+
+Servers are an instantiation of a Server Type. Or something. Still thinking about how best to encapsulate this.

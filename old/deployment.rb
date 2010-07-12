@@ -7,8 +7,8 @@ deployment :simple_app do
       password Auth::SIMPLEAPP_BOX_PASSWORD
       pulls_from :git => 'company/appname.git', :auth => Auth::EC2_GITHUB_KEY
     end
-    after_configuration do
-      babushka 'EBS attached', :size => 50.gb, :snapshot_bucket => 'someapp_backups'
+    after_bootup do
+      babushka 'EBS attached', :size => 50.gb, :snapshot_bucket => 'someapp_backups', :mount => '/data'
     end
   end
 end
