@@ -1,8 +1,8 @@
 class TestCloudAdapter < CloudAdapter
-  def boot_new_server(type, name, opts = {})
+  def boot_new_server(name, callback, opts = {})
     calls << {
       :method => :boot_new_server,
-      :args => [type, name, opts],
+      :args => [name, callback, opts],
       :returns => true
     }
     true

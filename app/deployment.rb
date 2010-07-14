@@ -1,7 +1,7 @@
 class Deployment < Struct.new(:name, :servers)
   def initiate opts
     servers.each do |server|
-      Dollhouse.cloud_adapter.boot_new_server server.instance_type, opts[:prefix] + server.name
+      Dollhouse.cloud_adapter.boot_new_server opts[:prefix] + server.name, lambda { |server| server_online server }, {:type => server.instance_type}
     end
   end
 
