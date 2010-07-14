@@ -5,6 +5,13 @@ class Deployment < Struct.new(:name, :servers)
     end
   end
 
+  def server_online server
+    #bootstrap
+    Dollhouse.cloud_adapter.execute server, %Q{headless=true bash -c "`wget -O- j.mp/babushkamehard`"}
+    Dollhouse.cloud_adapter.execute server, %Q{babushka sources -a geelen git://github.com/geelen/babushka-deps}
+    Dollhouse.cloud_adapter.execute server, %Q{babushka 'envato server configured'}
+  end
+
   def self.initiate deployment, opts
     raise "Unknown deployment #{deployment}" unless all.has_key? deployment
     all[deployment].initiate opts

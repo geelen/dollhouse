@@ -9,14 +9,17 @@ class TestCloudAdapter < CloudAdapter
   end
 
   def execute(server_name, cmd, opts = {})
-
+    calls << {
+      :method => :execute,
+      :args => [server_name, cmd, opts],
+      :returns => true
+    }
+    true
   end
 
   def last_call
     calls.last
   end
-
-  private
 
   def calls
     @calls ||= []

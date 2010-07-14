@@ -1,6 +1,6 @@
 class CloudAdapter
   def initialize
-    raise %Q{
+    raise NotImplementedError, %Q{
       Must implement the following methods:
 
       boot_new_server(name, callback, opts)
