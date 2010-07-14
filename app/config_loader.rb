@@ -21,7 +21,15 @@ class ServerBuilder < Struct.new(:name)
     @instance_type = t
   end
 
+  def first_boot &blk
+    callbacks[:first_boot] = blk
+  end
+
   def to_server
-    Server[name, @instance_type]
+    Server[name, @instance_type, callbacks]
+  end
+
+  def callbacks
+    @callbacks ||= {}
   end
 end

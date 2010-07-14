@@ -13,13 +13,12 @@ end
 
 Then /^server "([^\"]*)" should be bootstrapped$/ do |name|
   # babushka runs start here
-  last_three_calls = Dollhouse.cloud_adapter.calls[-3..-1]
+  last_two_calls = Dollhouse.cloud_adapter.calls[-2..-1]
   expected_commands = [
-    %Q{headless=true bash -c "`wget -O- j.mp/babushkamehard`"},
+    %Q{headless=true bash -c "`wget -O- babushka.me/up/hard`"},
     %Q{babushka sources -a geelen git://github.com/geelen/babushka-deps},
-    %Q{babushka 'envato server configured'},
   ]
-  last_three_calls.zip(expected_commands).each { |call, cmd|
+  last_two_calls.zip(expected_commands).each { |call, cmd|
     call.should == {
       :method => :execute,
       :args => [name, cmd, {}],
