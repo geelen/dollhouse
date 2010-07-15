@@ -1,7 +1,7 @@
 Feature: Booting up a staging environment
   Background: Using the demo deployment
     Given I am running the "demo" example
-    And I have deleted the "demo/config/dollhouse/instances.yml" file
+    And I have deleted the "config/dollhouse/instances.yml" file
 
   Scenario: Deploying a new staging server from scratch
     When I initiate a new deployment :staging
