@@ -1,14 +1,15 @@
 Then /^a new server should be started of type "([^\"]*)" with name "([^\"]*)"$/ do |type, name|
-  @server_boot_callback = Dollhouse.cloud_adapter.last_call[:args][1]
+  @server_boot_callbacks ||= {}
+  @server_boot_callbacks[name] = Dollhouse.cloud_adapter.last_call[:args][1]
   Dollhouse.cloud_adapter.last_call.should == {
     :method => :boot_new_server,
-    :args => [name, @server_boot_callback, {:type => type}],
+    :args => [name, @server_boot_callbacks[name], {:type => type}],
     :returns => true
   }
 end
 
 When /^server "([^\"]*)" comes online$/ do |name|
-  @server_boot_callback.call name
+  @server_boot_callbacks[name].call
 end
 
 Then /^server "([^\"]*)" should be bootstrapped$/ do |name|
