@@ -1,3 +1,3 @@
-Given /^I have loaded the "([^\"]*)" configuration file$/ do |name|
-  Dollhouse.load_config(PROJECT_ROOT + "/examples/config/#{name}.rb")
+Given /^I am running the "([^\"]*)" example$/ do |example_name|
+  Dollhouse.launch_from(PROJECT_ROOT + "/examples/#{example_name}")
 end
