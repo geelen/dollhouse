@@ -10,7 +10,7 @@ class Deployment < Struct.new(:name, :servers)
     #bootstrap
     Dollhouse.cloud_adapter.execute server, %Q{headless=true bash -c "`wget -O- j.mp/babushkamehard`"}
     Dollhouse.cloud_adapter.execute server, %Q{babushka sources -a geelen git://github.com/geelen/babushka-deps}
-    server.callbacks[:first_boot].call
+    server.instance_eval &server.callbacks[:first_boot]
   end
 
   def self.initiate deployment, opts
