@@ -12,6 +12,10 @@ module Dollhouse
   end
 
   class << self
-    attr_accessor :root, :cloud_adapter
+    attr_accessor :root, :cloud_adapter, :instances
+
+    def instances
+      @instances ||= Instances.new
+    end
   end
 end
