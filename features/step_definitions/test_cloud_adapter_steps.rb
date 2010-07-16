@@ -13,17 +13,15 @@ When /^server "([^\"]*)" comes online$/ do |name|
 end
 
 Then /^server "([^\"]*)" should be bootstrapped$/ do |name|
-  # babushka runs start here
-  last_two_calls = Dollhouse.cloud_adapter.calls[-2..-1]
-  expected_commands = [
+  expect_to_have_been_executed name, [
     %Q{headless=true bash -c "`wget -O- babushka.me/up/hard`"},
     %Q{babushka sources -a geelen git://github.com/geelen/babushka-deps},
   ]
-  last_two_calls.zip(expected_commands).each { |call, cmd|
-    call.should == {
-      :method => :execute,
-      :args => [name, cmd, {}],
-      :returns => true
-    }
-  }
+end
+
+def expect_to_have_been_executed name, cmds
+  executions = Dollhouse.cloud_adapter.calls.
+                 select { |call| call[:method] == :execute && call[:args][0] == name }.
+                 map { |call| call[:args][1] }
+  cmds.each { |cmd| executions.should include(cmd) }
 end
