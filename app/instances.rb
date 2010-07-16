@@ -1,5 +1,6 @@
 class Instances
   def initialize
+    require 'yaml'
     @online_servers = {}
   end
 
@@ -12,6 +13,8 @@ class Instances
 
   def save!
     FileUtils::mkdir_p(Dollhouse.root + '/config/dollhouse/instances')
-    YAML::dump(@online_servers, File.open(Dollhouse.root + '/config/dollhouse/instances/servers.yml', 'w'))
+    File.open(Dollhouse.root + '/config/dollhouse/instances/servers.yml', 'w') { |f|
+      YAML::dump(@online_servers, f)
+    }
   end
 end
