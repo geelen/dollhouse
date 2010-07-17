@@ -3,7 +3,7 @@ Then /^a new server should be started of type "([^\"]*)" with name "([^\"]*)"$/ 
   @server_boot_callbacks[name] = Dollhouse.cloud_adapter.last_call[:args][1]
   Dollhouse.cloud_adapter.last_call.should == {
     :method => :boot_new_server,
-    :args => [name, @server_boot_callbacks[name], {:type => type}],
+    :args => [name, @server_boot_callbacks[name], {:instance_type => type, :os => "Ubuntu 10.04"}],
     :returns => true
   }
 end

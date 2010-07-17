@@ -12,7 +12,7 @@ class Instances
   private
 
   def save!
-    FileUtils::mkdir_p(Dollhouse.root + '/config/dollhouse/instances')
+    FileUtils.mkdir_p(Dollhouse.root + '/config/dollhouse/instances')
     File.open(Dollhouse.root + '/config/dollhouse/instances/servers.yml', 'w') { |f|
       YAML::dump(@online_servers, f)
     }

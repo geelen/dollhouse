@@ -1,2 +1,2 @@
-class Server < Struct.new(:name, :instance_type, :callbacks)
+class Server < Struct.new(:name, :instance_type, :os, :callbacks)
 end

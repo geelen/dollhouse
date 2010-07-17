@@ -2,17 +2,18 @@
 
 require 'rubygems'
 require 'main'
+require 'fileutils'
 
-PROJECT_ROOT = File.dirname(__FILE__) + "/../.."
+PROJECT_ROOT = File.dirname(__FILE__) + "/.."
 Dir.glob(PROJECT_ROOT + '/app/*.rb').each { |f| require f }
 
 Main do
   mode 'deploy' do
     argument('deployment') { required }
-    argument('prefix')
+    argument('prefix') { optional }
     def run
       Dollhouse.launch_from(Dir.pwd)
-      Dollhouse.initiate_deployment(params['deployment'].to_sym, :prefix => params['prefix'])
+      Dollhouse.initiate_deployment(params['deployment'].value.to_sym, :prefix => params['prefix'].value)
     end
   end
 
