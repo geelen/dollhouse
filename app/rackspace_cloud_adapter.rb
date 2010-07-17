@@ -1,9 +1,14 @@
+require 'fog'
+
 class RackspaceCloudAdapter < CloudAdapter
   FLAVORS = {"256mb" => 1, "512mb" => 2}
-  IMAGES = {}
+  IMAGES = {"Ubuntu 10.04" => 49}
 
   def initialize
-    @cs = CloudServers::Connection.new(:username => Auth::Rackspace::USERNAME, :api_key => Auth::Rackspace::API_KEY)
+    @conn = Fog::Rackspace::Servers.new(
+      :rackspace_api_key => Auth::Rackspace::API_KEY,
+      :rackspace_username => Auth::Rackspace::USERNAME
+    )
   end
 
   def boot_new_server(name, callback, opts)
