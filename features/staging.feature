@@ -9,5 +9,5 @@ Feature: Booting up a staging environment
     When server "cuke-staging-server" comes online
     Then server "cuke-staging-server" should be listed as a running instance
     And server "cuke-staging-server" should be bootstrapped
-    And babushka run "geelen/geelen server configured" should be run on "cuke-staging-server"
+    And babushka run "geelen:geelen server configured" should be run on "cuke-staging-server"
     And babushka run "complete staging environment" should be run on "cuke-staging-server" as "app"
