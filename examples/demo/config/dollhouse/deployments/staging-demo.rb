@@ -2,7 +2,7 @@ deployment :staging do
   server "staging-server" do
     instance_type "512mb"
     first_boot {
-      babushka 'envato server configured'
+      babushka 'geelen server configured'
     }
   end
 end

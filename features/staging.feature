@@ -8,6 +8,7 @@ Feature: Booting up a staging environment
     Then a new server should be started of type "512mb" with name "cuke-staging-server"
     When server "cuke-staging-server" comes online
     Then server "cuke-staging-server" should be listed as a running instance
-    Then server "cuke-staging-server" should be bootstrapped
+    And server "cuke-staging-server" should be bootstrapped
+    And babushka run "geelen server configured" should be run on "cuke-staging-server"
     And server "cuke-staging" should be given private github credentials
     And task "complete staging environment" should be invoked on "cuke-staging"

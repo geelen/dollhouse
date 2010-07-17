@@ -25,3 +25,7 @@ def expect_to_have_been_executed name, cmds
                  map { |call| call[:args][1] }
   cmds.each { |cmd| executions.should include(cmd) }
 end
+
+When /^babushka run "([^\"]*)" should be run on "([^\"]*)"$/ do |babs_run, name|
+  expect_to_have_been_executed name, "babushka '#{babs_run}'"
+end
