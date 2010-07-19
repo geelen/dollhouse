@@ -17,19 +17,22 @@ module Dollhouse
       image_num = IMAGES[opts[:os]]
       raise "Unknown os of #{opts[:os].inspect}. Permitted values are #{IMAGES.keys.inspect}" unless image_num
 
-      server = conn.servers.create(:flavor_id => flavor_num, :image_id => image_num, :name => name)
       puts "Booting server #{name}"
+      server = conn.servers.create(:flavor_id => flavor_num, :image_id => image_num, :name => name)
 
+      puts "Server booted: #{server.inspect}"
       # make this asynch soon
       server.wait_for { ready? }
-
-      puts "Server #{name} online."
+      puts "Server #{name} online. Adding our private key"
+      server.public_key_path = Auth::Rackspace::KEYPAIR + ".pub"
+      server.setup
+      puts "Done. Ready to go!"
 
       callback.call
     end
 
     def execute(name, cmd, opts = {})
-      ssh_conn(name, opts) do |ssh|
+      ssh_conn(name, opts) do
         p "Executing: #{cmd}"
         exec cmd
       end
