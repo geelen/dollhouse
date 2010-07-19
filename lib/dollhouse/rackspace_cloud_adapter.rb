@@ -38,6 +38,13 @@ module Dollhouse
       end
     end
 
+    def destroy name
+      server = conn.servers.find { |s| s.name == name }
+      puts "Killing server #{server.inspect}"
+      server.destroy
+      puts "Done."
+    end
+
     private
 
     def ssh_conn(name, opts, &blk)

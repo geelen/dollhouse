@@ -22,7 +22,16 @@ Main do
     argument('server_name') { required }
     argument('cmd') { required }
     def run
+      Dollhouse.launch_from(Dir.pwd)
+      Dollhouse.instances[params['server_name'].value].instance_eval params['cmd'].value
+    end
+  end
 
+  mode 'destroy' do
+    argument('server_name') { required }
+    def run
+      Dollhouse.launch_from(Dir.pwd)
+      Dollhouse.instances[params['server_name'].value].destroy
     end
   end
 end

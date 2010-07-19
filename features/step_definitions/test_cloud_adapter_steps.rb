@@ -14,7 +14,7 @@ end
 
 Then /^server "([^\"]*)" should be bootstrapped$/ do |name|
   expect_to_have_been_executed name, [
-    %Q{headless=true bash -c "`wget -O- babushka.me/up/hard`"},
+    %Q{headless=true bash -c "`wget -O- babushka.me/up/hard,next`"},
     %Q{babushka sources -a geelen git://github.com/geelen/babushka-deps},
   ]
 end
