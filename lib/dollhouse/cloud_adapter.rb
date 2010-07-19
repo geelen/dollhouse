@@ -1,6 +1,7 @@
-class CloudAdapter
-  def initialize
-    raise NotImplementedError, %Q{
+module Dollhouse
+  class CloudAdapter
+    def initialize
+      raise NotImplementedError, %Q{
       Must implement the following methods:
 
       boot_new_server(name, callback, opts)
@@ -11,5 +12,6 @@ class CloudAdapter
       execute(server_name, cmd, opts)
 
     } unless [:boot_new_server, :execute].all? { |m| self.class.method_defined? m }
+    end
   end
 end

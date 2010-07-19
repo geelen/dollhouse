@@ -1,9 +1,7 @@
-PROJECT_ROOT = File.dirname(__FILE__) + "/../.."
+require 'rubygems'
+require "bundler"
+Bundler.setup :default, :cucumber
 
-Dir.glob(PROJECT_ROOT + '/app/*.rb').each { |f| require f }
+PROJECT_ROOT = File.dirname(__FILE__) + '/../..'
 
-module Spec
-  module Matchers
-    alias :contain :include
-  end
-end
+require PROJECT_ROOT + '/lib/dollhouse.rb'

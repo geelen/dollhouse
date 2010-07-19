@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'main'
-require 'fileutils'
+require "bundler"
+Bundler.setup
 
-PROJECT_ROOT = File.dirname(__FILE__) + "/.."
-Dir.glob(PROJECT_ROOT + '/app/*.rb').each { |f| require f }
+require 'main'
+
+require File.dirname(__FILE__) + '/../lib/dollhouse.rb'
 
 Main do
   mode 'deploy' do
