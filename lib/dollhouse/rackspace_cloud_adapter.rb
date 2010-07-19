@@ -5,7 +5,6 @@ module Dollhouse
 
     def conn
       require 'fog'
-      Fog.mock!
       @conn ||= Fog::Rackspace::Servers.new(
                   :rackspace_api_key => Auth::Rackspace::API_KEY,
                   :rackspace_username => Auth::Rackspace::USERNAME
