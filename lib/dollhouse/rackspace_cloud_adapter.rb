@@ -30,11 +30,30 @@ module Dollhouse
     end
 
     def execute(name, cmd, opts = {})
-      #change this to use instances.yml, or something
-      server = conn.servers.find { |s| s.name == name }
-      host = server.addresses[:public]
-      user = opts[:user] || 'root'
-      puts "Connecting to #{host} as #{user}..."
+      ssh_conn(name, opts) do |ssh|
+        p "Executing: #{cmd}"
+        exec cmd
+      end
+    end
+
+    private
+
+    def ssh_conn(name, opts, &blk)
+      ssh_conns[[name, opts]].instance_eval(&blk)
+    end
+
+    def ssh_conns
+      @ssh_conns ||= Hash.new { |h, (name, opts)|
+        puts "Establishing connection to #{name}:"
+        #change this to use instances.yml, or something
+        server = conn.servers.find { |s| s.name == name }
+        raise "Can't find server #{name}" if server.nil?
+        host = server.addresses['public'].first
+        user = opts[:user] || 'root'
+        puts "Connecting to #{host} as #{user}..."
+
+        h[[name, opts]] = RemoteServer.new(Net::SSH.start(host, user, opts))
+      }
     end
   end
 end
