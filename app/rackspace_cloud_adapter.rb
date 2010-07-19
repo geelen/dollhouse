@@ -30,6 +30,11 @@ class RackspaceCloudAdapter < CloudAdapter
   end
 
   def execute(name, cmd, opts = {})
-    p [name, cmd, opts]
+    #change this to use instances.yml, or something
+    server = conn.servers.find { |s| s.name == name }
+    puts "Connecting to #{host} as #{user}..."
+    Net::SSH.start(server.addresses[:public], opts[:user] || 'root', {:forward_agent => true}.merge(opts)) do |ssh|
+      
+    end
   end
 end
