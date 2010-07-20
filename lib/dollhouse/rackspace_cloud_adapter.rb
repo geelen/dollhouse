@@ -38,6 +38,14 @@ module Dollhouse
       end
     end
 
+    def write_file(name, path, content, opts = {})
+      ssh_conn(name, opts) do
+        write_file(path) do |out|
+          out.puts content
+        end
+      end
+    end
+
     def destroy name
       server = conn.servers.find { |s| s.name == name }
       puts "Killing server #{server.inspect}"

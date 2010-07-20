@@ -18,6 +18,15 @@ module Dollhouse
       true
     end
 
+    def write_file(server_name, path, content, opts = {})
+      calls << {
+                 :method => :write_file,
+                 :args => [server_name, path, content, opts],
+                 :returns => true
+      }
+      true
+    end
+
     def last_call
       calls.last
     end
