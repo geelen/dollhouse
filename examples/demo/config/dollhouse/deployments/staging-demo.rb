@@ -4,6 +4,9 @@ deployment :staging do
     os "Ubuntu 10.04"
     first_boot {
       babushka 'geelen:geelen server configured'
+      as "app" do
+        babushka "geelen:complete staging environment"
+      end
     }
   end
 end

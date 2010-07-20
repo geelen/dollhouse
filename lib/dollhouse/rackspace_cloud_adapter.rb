@@ -24,7 +24,7 @@ module Dollhouse
       # make this asynch soon
       server.wait_for { ready? }
       puts "Server #{name} online. Adding our private key"
-      server.public_key_path = Auth::Rackspace::KEYPAIR + ".pub"
+      server.public_key_path = Auth::KEYPAIR + ".pub"
       server.setup
       puts "Done. Ready to go!"
 
