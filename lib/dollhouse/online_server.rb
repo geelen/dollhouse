@@ -5,8 +5,15 @@ module Dollhouse
       Dollhouse.cloud_adapter.execute(name_in_cloud, %Q{babushka sources -a geelen git://github.com/geelen/babushka-deps})
     end
 
-    def babushka taskname
-      Dollhouse.cloud_adapter.execute(name_in_cloud, "babushka '#{taskname}'")
+    def babushka taskname, vars = {}
+      if !vars.empty?
+        Dollhouse.cloud_adapter.write_file(name_in_cloud, "~/.babushka/vars/#{taskname}", {
+          :vars => vars.map_keys(&:to_s)
+        })
+        Dollhouse.cloud_adapter.execute(name_in_cloud, "babushka '#{taskname}' --defaults")
+      else
+        Dollhouse.cloud_adapter.execute(name_in_cloud, "babushka '#{taskname}'")
+      end
     end
 
     def destroy
