@@ -69,7 +69,7 @@ module Dollhouse
         user = opts[:user] || 'root'
         puts "Connecting to #{host} as #{user}..."
 
-        h[[name, opts]] = RemoteServer.new(Net::SSH.start(host, user, opts))
+        h[[name, opts]] = RemoteServer.new(Net::SSH.start(host, user, {:forward_agent => true}.merge(opts)))
       }
     end
   end

@@ -28,7 +28,7 @@ Main do
 #    end
 #  end
 
-  mode 'exec' do
+  mode 'execute' do
     argument('server_name') { required }
     argument('cmd') { required }
     def run

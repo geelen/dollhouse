@@ -21,7 +21,7 @@ module Dollhouse
     end
 
     def shell cmd, opts = {}
-      Dollhouse.cloud_adapter.execute(name_in_cloud, cmd, opts)
+      Dollhouse.cloud_adapter.execute(name_in_cloud, cmd, {:user => user}.merge(opts))
     end
 
     def write_file path, content, opts = {}
