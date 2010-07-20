@@ -9,15 +9,15 @@ describe Dollhouse do
     end
 
     it "shouldn't do anything special with no vars" do
-      @mock_cloud_adapter.should_receive(:execute).once.with "spec_server", "babushka 'dep name'"
+      @mock_cloud_adapter.should_receive(:execute).once.with "spec_server", "babushka 'dep name' --defaults", {:user => nil}
       @online_server.babushka "dep name"
     end
 
     it "should write out a single var" do
       @mock_cloud_adapter.should_receive(:write_file).once.with "spec_server", ".babushka/vars/dep name", {
         :vars => {'username' => {:value => 'glen'}}
-      }.to_yaml
-      @mock_cloud_adapter.should_receive(:execute).once.with "spec_server", "babushka 'dep name' --defaults"
+      }.to_yaml, {:user => nil}
+      @mock_cloud_adapter.should_receive(:execute).once.with "spec_server", "babushka 'dep name' --defaults", {:user => nil}
       @online_server.babushka "dep name", :username => "glen"
     end
 
@@ -25,8 +25,8 @@ describe Dollhouse do
       vars = {:ssh_config_file => "~/.ssh/config", :domain => "github.com", :key_file => "~/.ssh/github_key"}
       @mock_cloud_adapter.should_receive(:write_file).once.with "spec_server", ".babushka/vars/SSH alias", {
         :vars => vars.map_keys(&:to_s).map_values { |v| {:value => v}}
-      }.to_yaml
-      @mock_cloud_adapter.should_receive(:execute).once.with "spec_server", "babushka 'SSH alias' --defaults"
+      }.to_yaml, {:user => nil}
+      @mock_cloud_adapter.should_receive(:execute).once.with "spec_server", "babushka 'SSH alias' --defaults", {:user => nil}
       @online_server.babushka "SSH alias", vars
     end
   end
