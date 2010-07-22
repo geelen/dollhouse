@@ -46,4 +46,12 @@ Main do
       Dollhouse.instances[params['server_name'].value].destroy
     end
   end
+
+  mode 'list' do
+    def run
+      Dollhouse.launch_from(Dir.pwd)
+      #rackspace only lol
+      p Dollhouse.cloud_adapter.conn.servers
+    end
+  end
 end
