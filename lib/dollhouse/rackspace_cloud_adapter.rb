@@ -32,9 +32,11 @@ module Dollhouse
     end
 
     def execute(name, cmd, opts = {})
+      #nasty, but sudo_password isn't valid for starting a connection
+      sudo_password = opts.delete(:sudo_password)
       ssh_conn(name, opts) do
         p "Executing: #{cmd}"
-        exec cmd
+        exec cmd, {:sudo_password => sudo_password}
       end
     end
 

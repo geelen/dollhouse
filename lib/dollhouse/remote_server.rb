@@ -57,12 +57,12 @@ module Dollhouse
       @sudo_user = nil
     end
 
-    def exec(command)
+    def exec(command, opts = {})
       command = "sudo sudo -u #{@sudo_user} #{command}" if sudoing?
-      exec_with_pty command
+      exec_with_pty command, opts
     end
 
-    def exec_with_pty(command)
+    def exec_with_pty(command, opts = {})
       channel = @ssh.open_channel do |ch|
         ch.request_pty(:term => 'xterm-color') do |ch, success|
           raise "Failed to get a PTY!" unless success
@@ -76,7 +76,12 @@ module Dollhouse
             raise "Failed to start execution!" unless success
 
             ch.on_data do |ch, data|
-              if data =~ /[Pp]assword.+:/
+              # could loop badly
+              if opts[:sudo_password] && data =~ /\[sudo\] password for/
+                print data
+                puts "*SUDO PASSWORD AUTOMATICALLY SENT*"
+                ch.send_data("#{opts[:sudo_password]}\n")
+              elsif data =~ /[Pp]assword.+:/
                 ch.send_data("#{prompt(data, false)}\n")
               elsif data =~ /continue connecting \(yes\/no\)\?/
                 ch.send_data("#{prompt(data, true)}\n")
