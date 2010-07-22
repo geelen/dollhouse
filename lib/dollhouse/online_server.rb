@@ -12,9 +12,9 @@ module Dollhouse
         Dollhouse.cloud_adapter.execute(name_in_cloud, "babushka '#{taskname}'", :user => user)
       else
         if !vars.empty?
-          Dollhouse.cloud_adapter.write_file(name_in_cloud, ".babushka/vars/#{taskname}", {
+          write_file(".babushka/vars/#{taskname}", {
             :vars => vars.map_keys(&:to_s).map_values { |v| {:value => v} }
-          }.to_yaml, :user => user)
+          }.to_yaml)
         end
         Dollhouse.cloud_adapter.execute(name_in_cloud, "babushka '#{taskname}' --defaults", :user => user)
       end
@@ -25,7 +25,7 @@ module Dollhouse
     end
 
     def write_file path, content, opts = {}
-      Dollhouse.cloud_adapter.write_file(name_in_cloud.path, content, {:user => user}.merge(opts))
+      Dollhouse.cloud_adapter.write_file(name_in_cloud, path, content, {:user => user}.merge(opts))
     end
 
     def destroy
