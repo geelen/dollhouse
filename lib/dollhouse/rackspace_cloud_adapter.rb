@@ -1,6 +1,6 @@
 module Dollhouse
   class RackspaceCloudAdapter < CloudAdapter
-    FLAVORS = {"256mb" => 1, "512mb" => 2}
+    FLAVORS = {"256mb" => 1, "512mb" => 2, "1024mb" => 3}
     IMAGES = {"Ubuntu 10.04" => 49}
 
     def conn
