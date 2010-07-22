@@ -58,6 +58,8 @@ module Dollhouse
     private
 
     def ssh_conn(name, opts, &blk)
+      #nasty, but sudo_password isn't valid for starting a connection
+      opts.delete(:sudo_password)
       ssh_conns[[name, opts]].instance_eval(&blk)
     end
 
