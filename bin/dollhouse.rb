@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+ENV['BUNDLE_GEMFILE'] ||= File.dirname(__FILE__) + '/../Gemfile'
+
 require 'rubygems'
 require "bundler"
 Bundler.setup
