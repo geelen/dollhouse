@@ -11,25 +11,13 @@ module Dollhouse
 
     include Net::SSH::Prompt
 
-    attr_reader :ssh
+    attr_reader :ssh, :host, :user, :init_opts
 
-    # Connect to a remote server, and execute the given block within the
-    # context of that server.
-    # If you don't supply a password, pubkey authentication should take over.
-    def self.connect(host, user, options = {}, &block)
-      puts "Connecting to #{host} as #{user}..."
-      Net::SSH.start(host, user, options) do |ssh|
-        new(ssh).instance_eval(&block)
-      end
-    end
-
-    def initialize(ssh)
-      @ssh = ssh
-      @sudo_user = nil
-    end
-
-    def sudoing?
-      not @sudo_user.nil?
+    def initialize(host, user, opts = {})
+      @ssh = Net::SSH.start(host, user, opts)
+      @host = host
+      @user = user
+      @init_opts = opts
     end
 
     # Write to a remote file at _path_.
@@ -37,32 +25,11 @@ module Dollhouse
       Tempfile.open(File.basename(path)) do |f|
         yield f
         f.flush
-        if sudoing?
-          tmpfilepath = "/tmp/dollhouse-#{File.basename(f.path)}"
-          # Upload as the 'login' user
-          @ssh.sftp.upload!(f.path, tmpfilepath)
-          # Copy as the 'sudo' user
-          exec "cp \"#{tmpfilepath}\" \"#{f.path}\""
-          # Remove the temporary upload file as the 'login' user
-          exec_with_pty "rm \"#{tmpfilepath}\""
-        else
-          @ssh.sftp.upload!(f.path, path)
-        end
+        `scp '#{f.path}' '#{@user}@#{host}:#{path}'`
       end
     end
 
-    def as_user(user)
-      @sudo_user = user
-      yield
-      @sudo_user = nil
-    end
-
     def exec(command, opts = {})
-      command = "sudo sudo -u #{@sudo_user} #{command}" if sudoing?
-      exec_with_pty command, opts
-    end
-
-    def exec_with_pty(command, opts = {})
       channel = @ssh.open_channel do |ch|
         ch.request_pty(:term => 'xterm-color') do |ch, success|
           raise "Failed to get a PTY!" unless success

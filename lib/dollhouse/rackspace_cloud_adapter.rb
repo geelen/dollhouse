@@ -14,9 +14,9 @@ module Dollhouse
     def boot_new_server(name, callback, opts)
       flavor_num = FLAVORS[opts[:instance_type]]
       raise "Unknown instance_type of #{opts[:instance_type].inspect}. Permitted values are #{FLAVORS.keys.inspect}" unless flavor_num
-      image_num = if IMAGES[opts[:snapshot]]
-        image = conn.images.select { |i| i.created_at && i.name =~ Regexp.new(Regexp.escape(IMAGES[opts[:snapshot]])) }.sort_by { |i| i.created_at }.last
-        raise "Snapshot name of #{IMAGES[opts[:snapshot]]} doesn't match any images!" unless image
+      image_num = if opts[:snapshot]
+        image = conn.images.select { |i| i.created_at && i.name =~ Regexp.new(Regexp.escape(opts[:snapshot])) }.sort_by { |i| i.created_at }.last
+        raise "Snapshot name of #{opts[:snapshot]} doesn't match any images!" unless image
         puts "Booting from image: #{image.inspect}"
         image.id
       else
@@ -63,7 +63,7 @@ module Dollhouse
     end
 
     def take_snapshot name, snapshot_name
-      response = conn.create_image get_server(name).id, snapshot_name
+      response = conn.create_image get_server(name).id, 'name' => snapshot_name
       puts "Created image: #{response.body['image'].inspect}"
     end
 
@@ -84,7 +84,7 @@ module Dollhouse
         user = opts[:user] || 'root'
         puts "Connecting to #{host} as #{user}..."
 
-        h[[name, opts]] = RemoteServer.new(Net::SSH.start(host, user, {:forward_agent => true}.merge(opts)))
+        h[[name, opts]] = RemoteServer.new(host, user, {:forward_agent => true}.merge(opts))
       }
     end
 
