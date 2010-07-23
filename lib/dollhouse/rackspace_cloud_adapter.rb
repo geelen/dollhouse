@@ -14,8 +14,15 @@ module Dollhouse
     def boot_new_server(name, callback, opts)
       flavor_num = FLAVORS[opts[:instance_type]]
       raise "Unknown instance_type of #{opts[:instance_type].inspect}. Permitted values are #{FLAVORS.keys.inspect}" unless flavor_num
-      image_num = IMAGES[opts[:os]]
-      raise "Unknown os of #{opts[:os].inspect}. Permitted values are #{IMAGES.keys.inspect}" unless image_num
+      image_num = if IMAGES[opts[:snapshot]]
+        image = conn.images.select { |i| i.created_at && i.name =~ Regexp.new(Regexp.escape(IMAGES[opts[:snapshot]])) }.sort_by { |i| i.created_at }.last
+        raise "Snapshot name of #{IMAGES[opts[:snapshot]]} doesn't match any images!" unless image
+        puts "Booting from image: #{image.inspect}"
+        image.id
+      else
+        raise "Unknown os of #{opts[:os].inspect}. Permitted values are #{IMAGES.keys.inspect}" unless IMAGES[opts[:os]]
+        IMAGES[opts[:os]]
+      end
 
       puts "Booting server #{name}"
       server = conn.servers.create(:flavor_id => flavor_num, :image_id => image_num, :name => name)
@@ -49,10 +56,15 @@ module Dollhouse
     end
 
     def destroy name
-      server = conn.servers.find { |s| s.name == name }
+      server = get_server name
       puts "Killing server #{server.inspect}"
       server.destroy
       puts "Done."
+    end
+
+    def take_snapshot name, snapshot_name
+      response = conn.create_image get_server(name).id, snapshot_name
+      puts "Created image: #{response.body['image'].inspect}"
     end
 
     private
@@ -67,14 +79,19 @@ module Dollhouse
       @ssh_conns ||= Hash.new { |h, (name, opts)|
         puts "Establishing connection to #{name}:"
         #change this to use instances.yml, or something
-        server = conn.servers.find { |s| s.name == name }
-        raise "Can't find server #{name}" if server.nil?
+        server = get_server name
         host = server.addresses['public'].first
         user = opts[:user] || 'root'
         puts "Connecting to #{host} as #{user}..."
 
         h[[name, opts]] = RemoteServer.new(Net::SSH.start(host, user, {:forward_agent => true}.merge(opts)))
       }
+    end
+
+    def get_server name
+      server = conn.servers.find { |s| s.name == name }
+      raise "Can't find server #{name}" if server.nil?
+      server
     end
   end
 end

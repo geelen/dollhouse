@@ -5,7 +5,7 @@ module Dollhouse
         cloud_name = [opts[:prefix], server.name].compact.join("-")
         Dollhouse.cloud_adapter.boot_new_server cloud_name,
                                                 lambda { server_online(cloud_name, server) },
-                                                {:instance_type => server.instance_type, :os => server.os}
+                                                {:instance_type => server.instance_type, :os => server.os, :snapshot => server.snapshot}
       end
     end
 

@@ -26,12 +26,16 @@ module Dollhouse
       @os = o
     end
 
+    def from_latest_snapshot snapshot_name
+      @snapshot = snapshot_name
+    end
+
     def first_boot &blk
       callbacks[:first_boot] = blk
     end
 
     def to_server
-      Server[name, @instance_type, @os, callbacks]
+      Server[name, @instance_type, @os, @snapshot, callbacks]
     end
 
     def callbacks

@@ -42,6 +42,10 @@ module Dollhouse
       self.password = old_password
     end
 
+    def take_snapshot name
+      Dollhouse.cloud_adapter.take_snapshot(name_in_cloud, name + "-" + Time.now.strftime("%Y%M%d-%H%M%S"))
+    end
+
     private
 
     def default_opts
