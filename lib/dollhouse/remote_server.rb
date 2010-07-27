@@ -25,7 +25,9 @@ module Dollhouse
       Tempfile.open(File.basename(path)) do |f|
         yield f
         f.flush
-        `scp '#{f.path}' '#{@user}@#{host}:#{path}'`
+        remote_path = %Q{"#{@user}@#{host}:#{path.gsub(/ /,"\\ ")}"}
+        puts "Writing to #{remote_path}"
+        `scp '#{f.path}' #{remote_path}`
       end
     end
 
