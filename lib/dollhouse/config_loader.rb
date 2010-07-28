@@ -5,7 +5,7 @@ end
 module Dollhouse
   class DeployBuilder < Struct.new(:name)
     def to_deployment
-      Deployment[name, @servers.map(&:to_server)]
+      Deployment[name, servers.map(&:to_server)]
     end
 
     def server server_name, &blk
