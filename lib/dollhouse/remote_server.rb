@@ -14,7 +14,14 @@ module Dollhouse
     attr_reader :ssh, :host, :user, :init_opts
 
     def initialize(host, user, opts = {})
-      @ssh = Net::SSH.start(host, user, opts)
+      begin
+        @ssh = Net::SSH.start(host, user, opts)
+      rescue Net::SSH::HostKeyMismatch => exception
+        exception.remember_host!
+        sleep 0.2
+        retry
+      end
+      
       @host = host
       @user = user
       @init_opts = opts
@@ -25,7 +32,7 @@ module Dollhouse
       Tempfile.open(File.basename(path)) do |f|
         yield f
         f.flush
-        remote_path = %Q{"#{@user}@#{host}:#{path.gsub(/ /,"\\ ")}"}
+        remote_path = %Q{"#{@user}@#{host}:#{path.gsub(/ /, "\\ ")}"}
         puts "Writing to #{remote_path}"
         `scp '#{f.path}' #{remote_path}`
       end
@@ -45,7 +52,7 @@ module Dollhouse
             raise "Failed to start execution!" unless success
 
             ch.on_data do |ch, data|
-              # could loop badly
+                         # could loop badly
               if opts[:sudo_password] && data =~ /\[sudo\] password for/
                 print data
                 puts "*SUDO PASSWORD AUTOMATICALLY SENT*"
