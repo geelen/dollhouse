@@ -8,7 +8,7 @@ module Dollhouse
   end
 
   def self.initiate_deployment(deployment, opts = {})
-    Deployment.initiate(deployment, opts)
+    Deployment[deployment].initiate(opts)
   end
 
   class << self

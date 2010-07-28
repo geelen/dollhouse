@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/support/env.rb'
 
 describe Dollhouse do
   before do
-    @online_server = Dollhouse::OnlineServer["spec_server", "server", :running]
+    @online_server = Dollhouse::OnlineServer["spec_server", "deployment", "server", :running]
     @mock_cloud_adapter = mock(:cloud_adapter)
     Dollhouse.stub!(:cloud_adapter).and_return(@mock_cloud_adapter)
   end

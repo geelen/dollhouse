@@ -1,5 +1,5 @@
 module Dollhouse
-  class OnlineServer < Struct.new(:name_in_cloud, :server_name, :status)
+  class OnlineServer < Struct.new(:name_in_cloud, :deployment_name, :server_name, :status)
     attr_accessor :user, :password
 
     def bootstrap
@@ -44,6 +44,18 @@ module Dollhouse
 
     def take_snapshot name
       Dollhouse.cloud_adapter.take_snapshot(name_in_cloud, name + "-" + Time.now.strftime("%Y%M%d-%H%M%S"))
+    end
+
+    def server
+      deployment.servers.find { |s| s.name == server_name }
+    end
+
+    def deployment
+      Deployment[self.deployment_name]
+    end
+
+    def run_task task_name
+      instance_eval &server.callbacks[task_name]
     end
 
     private

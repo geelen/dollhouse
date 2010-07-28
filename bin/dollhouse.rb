@@ -43,7 +43,7 @@ Main do
     argument('server_name') { required }
     def run
       Dollhouse.launch_from(Dir.pwd)
-      Dollhouse.instances[params['server_name'].value].destroy
+      Dollhouse.cloud_adapter.destroy params['server_name'].value
     end
   end
 
@@ -52,6 +52,15 @@ Main do
       Dollhouse.launch_from(Dir.pwd)
       #rackspace only lol
       p Dollhouse.cloud_adapter.conn.servers
+    end
+  end
+
+  mode 'run' do
+    argument('server_name') { required }
+    argument('task_name') { required }
+    def run
+      Dollhouse.launch_from(Dir.pwd)
+      Dollhouse.instances[params['server_name'].value].run_task(params['task_name'].value)
     end
   end
 end

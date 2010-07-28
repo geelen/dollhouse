@@ -5,7 +5,7 @@ end
 module Dollhouse
   class DeployBuilder < Struct.new(:name)
     def to_deployment
-      Deployment[name, servers.map(&:to_server)]
+      Deployment.new(name, servers.map(&:to_server))
     end
 
     def server server_name, &blk
@@ -32,6 +32,10 @@ module Dollhouse
 
     def first_boot &blk
       callbacks[:first_boot] = blk
+    end
+
+    def task name, &blk
+      callbacks[name.to_s] = blk
     end
 
     def to_server

@@ -1,5 +1,12 @@
 module Dollhouse
-  class Deployment < Struct.new(:name, :servers)
+  class Deployment
+    attr_accessor :name, :servers
+
+    def initialize name, servers
+      @name = name
+      @servers = servers
+    end
+
     def initiate opts
       servers.each do |server|
         cloud_name = [opts[:prefix], server.name].compact.join("-")
@@ -10,15 +17,15 @@ module Dollhouse
     end
 
     def server_online cloud_name, server
-      online_server = OnlineServer[cloud_name, server.name, :running]
+      online_server = OnlineServer[cloud_name, self.name, server.name, :running]
       Dollhouse.instances.server_came_online online_server
       online_server.bootstrap
       online_server.instance_eval &server.callbacks[:first_boot]
     end
 
-    def self.initiate deployment, opts
+    def self.[](deployment)
       raise "Unknown deployment #{deployment}" unless all.has_key? deployment
-      all[deployment].initiate opts
+      all[deployment]
     end
 
     def self.register deployment
