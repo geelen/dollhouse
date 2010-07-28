@@ -1,76 +1,56 @@
---- 
-dependencies: 
-  net-sftp: 
-    group: 
-    - :default
-    version: ">= 0"
-  ruby-debug: 
-    group: 
-    - :default
-    version: ">= 0"
-  net-ssh: 
-    group: 
-    - :default
-    version: ">= 0"
-  main: 
-    group: 
-    - :default
-    version: ">= 0"
-  cucumber: 
-    group: 
-    - :cucumber
-    version: ">= 0"
-  fog: 
-    group: 
-    - :default
-    version: ">= 0"
-specs: 
-- arrayfields: 
-    version: 4.7.4
-- builder: 
-    version: 2.1.2
-- columnize: 
-    version: 0.3.1
-- diff-lcs: 
-    version: 1.1.2
-- trollop: 
-    version: 1.16.2
-- gherkin: 
-    version: 2.1.5
-- json_pure: 
-    version: 1.4.3
-- term-ansicolor: 
-    version: 1.0.5
-- cucumber: 
-    version: 0.8.4
-- excon: 
-    version: 0.1.4
-- fattr: 
-    version: 2.1.0
-- formatador: 
-    version: 0.0.14
-- json: 
-    version: 1.2.0
-- mime-types: 
-    version: "1.16"
-- net-ssh: 
-    version: 2.0.23
-- nokogiri: 
-    version: 1.4.2
-- ruby-hmac: 
-    version: 0.4.0
-- fog: 
-    version: 0.2.15
-- linecache: 
-    version: "0.43"
-- main: 
-    version: 4.2.0
-- net-sftp: 
-    version: 2.0.4
-- ruby-debug-base: 
-    version: 0.10.3
-- ruby-debug: 
-    version: 0.10.3
-hash: 5145b6599a178e319b6f3393b4cbae23a2e9ed31
-sources: []
+GEM
+  specs:
+    arrayfields (4.7.4)
+    builder (2.1.2)
+    columnize (0.3.1)
+    cucumber (0.8.4)
+      builder (~> 2.1.2)
+      diff-lcs (~> 1.1.2)
+      gherkin (~> 2.1.1)
+      json_pure (~> 1.4.3)
+      term-ansicolor (~> 1.0.4)
+    diff-lcs (1.1.2)
+    excon (0.1.4)
+    fattr (2.1.0)
+    fog (0.2.15)
+      builder
+      excon (>= 0.1.4)
+      formatador (>= 0.0.10)
+      json
+      mime-types
+      net-ssh
+      nokogiri
+      ruby-hmac
+    formatador (0.0.14)
+    gherkin (2.1.5)
+      trollop (~> 1.16.2)
+    json (1.2.0)
+    json_pure (1.4.3)
+    linecache (0.43)
+    main (4.2.0)
+      arrayfields (>= 4.7.4)
+      fattr (>= 2.1.0)
+    mime-types (1.16)
+    net-sftp (2.0.4)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.0.23)
+    nokogiri (1.4.2)
+    ruby-debug (0.10.3)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.3.0)
+    ruby-debug-base (0.10.3)
+      linecache (>= 0.3)
+    ruby-hmac (0.4.0)
+    term-ansicolor (1.0.5)
+    trollop (1.16.2)
 
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cucumber
+  fog
+  main
+  net-sftp
+  net-ssh
+  ruby-debug
