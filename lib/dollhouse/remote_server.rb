@@ -21,7 +21,7 @@ module Dollhouse
         sleep 0.2
         retry
       end
-      
+
       @host = host
       @user = user
       @init_opts = opts
@@ -29,6 +29,7 @@ module Dollhouse
 
     # Write to a remote file at _path_.
     def write_file(path)
+      exec "mkdir -p #{File.dirname(path).gsub(/ /, "\\ ")}"
       Tempfile.open(File.basename(path)) do |f|
         yield f
         f.flush
