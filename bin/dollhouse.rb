@@ -50,8 +50,7 @@ Main do
   mode 'list' do
     def run
       Dollhouse.launch_from(Dir.pwd)
-      #rackspace only lol
-      p Dollhouse.cloud_adapter.conn.servers
+      p Dollhouse.cloud_adapter.list
     end
   end
 

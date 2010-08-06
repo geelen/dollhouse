@@ -1,5 +1,5 @@
 module Dollhouse
-  class OnlineServer < Struct.new(:name_in_cloud, :deployment_name, :server_name, :status)
+  class OnlineServer < Struct.new(:name_in_cloud, :deployment_name, :server_name, :status, :ip)
     attr_accessor :user, :password
 
     def bootstrap

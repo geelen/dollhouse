@@ -13,7 +13,9 @@ module Dollhouse
 
       write_file(server_name, path, content, opts)
 
-    } unless [:boot_new_server, :execute, :write_file].all? { |m| self.class.method_defined? m }
+      list
+
+    } unless [:boot_new_server, :execute, :write_file, :list].all? { |m| self.class.method_defined? m }
     end
   end
 end

@@ -24,12 +24,12 @@ module Dollhouse
     end
 
     def self.[](deployment)
-      raise "Unknown deployment #{deployment}" unless all.has_key? deployment
-      all[deployment]
+      raise "Unknown deployment #{deployment}" unless all.has_key? deployment.to_s
+      all[deployment.to_s]
     end
 
     def self.register deployment
-      all.merge! deployment.name => deployment
+      all.merge! deployment.name.to_s => deployment
     end
 
     def self.all
