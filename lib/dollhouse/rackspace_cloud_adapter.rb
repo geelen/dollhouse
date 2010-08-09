@@ -67,6 +67,10 @@ module Dollhouse
       puts "Created image: #{response.body['image'].inspect}"
     end
 
+    def list
+      conn.servers
+    end
+
     private
 
     def ssh_conn(name, opts, &blk)
