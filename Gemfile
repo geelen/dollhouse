@@ -1,3 +1,5 @@
+source :rubygems
+
 gem "main"
 gem "fog"
 gem "net-ssh"
