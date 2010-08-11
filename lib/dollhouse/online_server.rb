@@ -3,7 +3,7 @@ module Dollhouse
     attr_accessor :user, :password
 
     def bootstrap
-      Dollhouse.cloud_adapter.execute(name_in_cloud, %Q{headless=true bash -c "`wget -O- babushka.me/up/hard`"}, default_opts)
+      Dollhouse.cloud_adapter.execute(name_in_cloud, %Q{bash -c "`wget -O- babushka.me/up/hard`"}, default_opts)
     end
 
     def babushka taskname, vars = {}
