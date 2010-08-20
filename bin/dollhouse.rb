@@ -20,16 +20,6 @@ Main do
     end
   end
 
-# bit harder than I'd hoped :(
-#  mode 'event' do
-#    argument('server_name') { required }
-#    argument('event') { required }
-#    def run
-#      Dollhouse.launch_from(Dir.pwd)
-#      Dollhouse.instances[params['server_name'].value].
-#    end
-#  end
-
   mode 'exec' do
     argument('server_name') { required }
     argument('cmd') { required }
