@@ -1,0 +1,57 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    arrayfields (4.7.4)
+    builder (2.1.2)
+    columnize (0.3.1)
+    cucumber (0.8.5)
+      builder (~> 2.1.2)
+      diff-lcs (~> 1.1.2)
+      gherkin (~> 2.1.4)
+      json_pure (~> 1.4.3)
+      term-ansicolor (~> 1.0.4)
+    diff-lcs (1.1.2)
+    excon (0.2.0)
+    fattr (2.1.0)
+    fog (0.2.28)
+      builder
+      excon (>= 0.2.0)
+      formatador (>= 0.0.15)
+      json
+      mime-types
+      net-ssh
+      nokogiri (>= 1.4.3.1)
+      ruby-hmac
+    formatador (0.0.15)
+    gherkin (2.1.5)
+      trollop (~> 1.16.2)
+    json (1.4.6)
+    json_pure (1.4.6)
+    linecache (0.43)
+    main (4.2.0)
+      arrayfields (>= 4.7.4)
+      fattr (>= 2.1.0)
+    mime-types (1.16)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.0.23)
+    nokogiri (1.4.3.1)
+    ruby-debug (0.10.3)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.3.0)
+    ruby-debug-base (0.10.3)
+      linecache (>= 0.3)
+    ruby-hmac (0.4.0)
+    term-ansicolor (1.0.5)
+    trollop (1.16.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cucumber
+  fog
+  main
+  net-sftp
+  net-ssh
+  ruby-debug
