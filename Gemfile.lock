@@ -13,7 +13,7 @@ GEM
     diff-lcs (1.1.2)
     excon (0.2.0)
     fattr (2.1.0)
-    fog (0.2.28)
+    fog (0.2.30)
       builder
       excon (>= 0.2.0)
       formatador (>= 0.0.15)
@@ -32,7 +32,7 @@ GEM
       arrayfields (>= 4.7.4)
       fattr (>= 2.1.0)
     mime-types (1.16)
-    net-sftp (2.0.5)
+    net-sftp (2.0.4)
       net-ssh (>= 2.0.9)
     net-ssh (2.0.23)
     nokogiri (1.4.3.1)
@@ -52,6 +52,6 @@ DEPENDENCIES
   cucumber
   fog
   main
-  net-sftp
+  net-sftp (= 2.0.4)
   net-ssh
   ruby-debug
