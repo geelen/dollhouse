@@ -2,3 +2,4 @@ sekret
 .idea
 examples/envato
 .bundle
+*.gem

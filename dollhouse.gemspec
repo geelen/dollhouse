@@ -16,8 +16,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "dollhouse"
 
-  s.files        = Dir.glob('lib/**/*') + %w(LICENSE README.md)
-  s.require_path = 'lib'
+  s.files        = Dir.glob('{bin,lib}/**/*') + %w(LICENSE README.md)
+  s.executables  = %w(dollhouse)
 
   s.add_dependency 'main',       '~> 4.2.0'
   s.add_dependency 'fog',        '~> 0.2.30'
