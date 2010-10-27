@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/support/env.rb'
+require 'spec_helper'
 
 describe Dollhouse do
   before do
@@ -46,4 +46,3 @@ describe Dollhouse do
     end
   end
 end
-
