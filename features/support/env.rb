@@ -1,7 +1,7 @@
+PROJECT_ROOT = File.join(File.dirname(__FILE__), '..', '..')
+$:.unshift(File.join(PROJECT_ROOT, 'lib'))
+
 require 'rubygems'
-require "bundler"
-Bundler.setup :default, :cucumber
+require 'bundler/setup'
 
-PROJECT_ROOT = File.dirname(__FILE__) + '/../..'
-
-require PROJECT_ROOT + '/lib/dollhouse.rb'
+require 'dollhouse'
