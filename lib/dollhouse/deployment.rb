@@ -16,13 +16,6 @@ module Dollhouse
       end
     end
 
-    def server_online cloud_name, server
-      online_server = OnlineServer[cloud_name, self.name, server.name, :running]
-      Dollhouse.instances.server_came_online online_server
-      online_server.bootstrap
-      online_server.instance_eval &server.callbacks[:first_boot]
-    end
-
     def self.[](deployment)
       raise "Unknown deployment #{deployment}" unless all.has_key? deployment.to_s
       all[deployment.to_s]
