@@ -29,13 +29,11 @@ module Dollhouse
 
     # Write to a remote file at _path_.
     def write_file(path)
-      exec "mkdir -p #{File.dirname(path).gsub(/ /, "\\ ")}"
-      Tempfile.open(File.basename(path)) do |f|
-        yield f
-        f.flush
-        remote_path = %Q{"#{@user}@#{host}:#{path.gsub(/ /, "\\ ")}"}
-        puts "Writing to #{remote_path}"
-        `scp '#{f.path}' #{remote_path}`
+      @ssh.sftp.connect do |sftp|
+        sftp.file.open(path, 'w') do |file|
+          puts "Writing #{path}"
+          yield file
+        end
       end
     end
 
