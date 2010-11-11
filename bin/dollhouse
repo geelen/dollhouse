@@ -28,7 +28,7 @@ Main do
     argument('cmd') { required }
     def run
       Dollhouse.launch_from(Dir.pwd)
-      Dollhouse.instances[params['server_name'].value].instance_eval params['cmd'].value
+      Dollhouse.execute(params['server_name'].value, params['cmd'].value)
     end
   end
 

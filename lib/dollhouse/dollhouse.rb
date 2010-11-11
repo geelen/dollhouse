@@ -15,6 +15,10 @@ module Dollhouse
       instances[server_name].run_task task_name
     end
 
+    def execute(server_name, cmd)
+      instances[server_name].instance_eval cmd
+    end
+
     def instances
       @instances ||= Instances.new
     end
