@@ -1,4 +1,4 @@
-# Let it be known, dgoodlad is a profase.
+# Let it be known, @dgoodlad is a profase.
 
 require 'net/ssh'
 require 'net/sftp'
