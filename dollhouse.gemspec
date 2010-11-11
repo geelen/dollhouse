@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'net-sftp',   '~> 2.0.4'
   s.add_dependency 'ruby-debug', '~> 0.10.3'
 
-  s.add_development_dependency 'bundler',  '~> 1.0.3'
   s.add_development_dependency 'cucumber', '~> 0.9.3'
   s.add_development_dependency 'rake',     '~> 0.8.7'
   s.add_development_dependency 'rspec',    '~> 2.0.0'
