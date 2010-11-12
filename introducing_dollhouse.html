@@ -1,0 +1,22 @@
+Introducing Dollhouse
+
+Here at Envato, we've been using an awesome little library called <a href="http://babushka.me">Babushka</a> to configure our servers. It's written by fellow Melbourne-based Rubyist <a href="http://benhoskin.gs/">Ben Hoskings</a>, and has gained a lot of functionality (and popularity) over the last few months.
+
+The strength of Babushka is that it's lightweight - it lets you think about how to both configure and test each component of your servers, but doesn't force you to deal with higher-level architecture at the same time. This is in contrast to popular system configuration frameworks such as Chef or Puppet which treat the two as intertwined which can be frustratingly impenetrable for new users. Babushka is designed to be dead simple to set up and start using (check out the <a href="http://vimeo.com/6782671"> screencast).
+
+Babushka only operates on the local machine, and it is this narrow focus that makes it so powerful while keeping it so free of complexity. It's also designed to be interactive - to present the user with a series of questions or decisions, most commonly what to install and where, perfect when you have to repeat a complex task (e.g. setting up a new Rails app) several times with different inputs (e.g. for different projects). But this means it's not immediately useful for a company such as Envato who want fully repeatable scripts for multiple servers and multiple roles. This is where Dollhouse comes in.
+
+Dollhouse is designed to step back one level and look at configuring <em>remote</em> servers using Babushka.
+
+Let's look at an example:
+
+<code>
+  
+deployment :production do
+  server "db_master" do
+    task 'setup' do
+      bootstrap # installs Babushka if it is't already. You need to do this at least once on every server.
+      babushka ''
+</code>
+
+
