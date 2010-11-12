@@ -15,7 +15,7 @@ module Dollhouse
 
     def online_servers
       @online_servers = if File.exists? "#{Dollhouse.root}/config/dollhouse/instances/servers.yml"
-        OnlineServer.from_yaml(YAML::load_file("#{Dollhouse.root}/config/dollhouse/instances/servers.yml") || {})
+        Instance.from_yaml(YAML::load_file("#{Dollhouse.root}/config/dollhouse/instances/servers.yml") || {})
       else
         {}
       end

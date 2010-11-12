@@ -1,5 +1,5 @@
 module Dollhouse
-  class OnlineServer < Struct.new(:instance_name, :deployment_name, :server_name, :ip)
+  class Instance < Struct.new(:instance_name, :deployment_name, :server_name, :ip)
     attr_accessor :user, :password
 
     def bootstrap
@@ -64,7 +64,7 @@ module Dollhouse
 
     def self.from_yaml(hash)
       hash.map_values_with_keys { |k,v|
-        OnlineServer[k, v['deployment_name'], v['server_name'], v['ip']]
+        Instance[k, v['deployment_name'], v['server_name'], v['ip']]
       }
     end
 
