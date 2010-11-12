@@ -1,1 +1,1 @@
-Dollhouse.cloud_adapter = Dollhouse::ManualConfig.new
+# No configuration needed yet, but this is where it'd go.
