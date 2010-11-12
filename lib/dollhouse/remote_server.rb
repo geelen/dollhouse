@@ -48,7 +48,7 @@ module Dollhouse
           output = ''
           status_code = nil
 
-          puts "Executing:\n#{command}"
+          puts "## Executing: #{command}"
 
           ch.exec(command) do |ch, success|
             raise "Failed to start execution!" unless success

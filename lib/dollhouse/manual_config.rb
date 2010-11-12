@@ -4,7 +4,6 @@ module Dollhouse
       #nasty, but sudo_password isn't valid for starting a connection
       sudo_password = opts.delete(:sudo_password)
       ssh_conn(Dollhouse.instances[name].ip, opts[:user] || 'root', opts) do
-        p "Executing: #{cmd}"
         exec cmd, {:sudo_password => sudo_password}
       end
     end
