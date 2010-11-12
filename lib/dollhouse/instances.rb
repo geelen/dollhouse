@@ -15,10 +15,14 @@ module Dollhouse
 
     def online_servers
       @online_servers = if File.exists? "#{Dollhouse.root}/config/dollhouse/instances/servers.yml"
-        YAML::load_file("#{Dollhouse.root}/config/dollhouse/instances/servers.yml") or {}
+        Instance.from_yaml(YAML::load_file("#{Dollhouse.root}/config/dollhouse/instances/servers.yml") || {})
       else
         {}
       end
+    end
+
+    def list
+      online_servers.inspect
     end
 
     private

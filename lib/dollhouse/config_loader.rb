@@ -18,22 +18,6 @@ module Dollhouse
   end
 
   class ServerBuilder < Struct.new(:name)
-    def instance_type t
-      @instance_type = t
-    end
-
-    def os o
-      @os = o
-    end
-
-    def from_latest_snapshot snapshot_name
-      @snapshot = snapshot_name
-    end
-
-    def first_boot &blk
-      callbacks[:first_boot] = blk
-    end
-
     def task name, &blk
       callbacks[name.to_s] = blk
     end

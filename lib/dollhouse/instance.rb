@@ -1,35 +1,31 @@
 module Dollhouse
-  class OnlineServer < Struct.new(:name_in_cloud, :deployment_name, :server_name, :status, :ip)
+  class Instance < Struct.new(:instance_name, :deployment_name, :server_name, :ip)
     attr_accessor :user, :password
 
     def bootstrap
-      Dollhouse.cloud_adapter.execute(name_in_cloud, %Q{bash -c "`wget -O- babushka.me/up/hard`"}, default_opts)
+      cloud_adapter.execute(instance_name, %Q{bash -c "`wget -O- babushka.me/up/hard`"}, default_opts)
     end
 
     def babushka taskname, vars = {}
       # not used yet, but this makes sense. --defaults (or headless) is the default!
       if vars == :no_defaults
-        Dollhouse.cloud_adapter.execute(name_in_cloud, "babushka '#{taskname}'", default_opts)
+        cloud_adapter.execute(instance_name, "babushka '#{taskname}'", default_opts)
       else
         if !vars.empty?
           write_file(".babushka/vars/#{taskname}", {
             :vars => vars.map_keys(&:to_s).map_values { |v| {:value => v} }
           }.to_yaml)
         end
-        Dollhouse.cloud_adapter.execute(name_in_cloud, "babushka '#{taskname}' --defaults", default_opts)
+        cloud_adapter.execute(instance_name, "babushka '#{taskname}' --defaults", default_opts)
       end
     end
 
     def shell cmd, opts = {}
-      Dollhouse.cloud_adapter.execute(name_in_cloud, cmd, default_opts.merge(opts))
+      cloud_adapter.execute(instance_name, cmd, default_opts.merge(opts))
     end
 
     def write_file path, content, opts = {}
-      Dollhouse.cloud_adapter.write_file(name_in_cloud, path, content, default_opts.merge(opts))
-    end
-
-    def destroy
-      Dollhouse.cloud_adapter.destroy(name_in_cloud)
+      cloud_adapter.write_file(instance_name, path, content, default_opts.merge(opts))
     end
 
     def as user, opts = {}, &blk
@@ -40,10 +36,6 @@ module Dollhouse
       instance_eval(&blk)
       self.user = old_user
       self.password = old_password
-    end
-
-    def take_snapshot name
-      Dollhouse.cloud_adapter.take_snapshot(name_in_cloud, name + "-" + Time.now.strftime("%Y%M%d-%H%M%S"))
     end
 
     def server
@@ -58,6 +50,16 @@ module Dollhouse
       instance_eval &server.callbacks[task_name]
     end
 
+    def to_yaml
+      {instance_name => {'deployment_name' => deployment_name, 'server_name' => server_name, 'ip' => ip}}
+    end
+
+    def self.from_yaml(hash)
+      hash.map_values_with_keys { |k,v|
+        Instance[k, v['deployment_name'], v['server_name'], v['ip']]
+      }
+    end
+
     private
 
     def default_opts
@@ -65,6 +67,11 @@ module Dollhouse
       opts.merge!({:user => user}) if user
       opts.merge!({:sudo_password => password}) if password
       opts
+    end
+
+    # This could return different adapters, that connect to servers in different ways. For now we have a simple
+    def cloud_adapter
+      @cloud_adapter ||= ManualConfig.new
     end
   end
 end

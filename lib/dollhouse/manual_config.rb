@@ -1,20 +1,11 @@
 module Dollhouse
-  class ManualConfig < CloudAdapter
+  class ManualConfig
     def execute(name, cmd, opts = {})
       #nasty, but sudo_password isn't valid for starting a connection
       sudo_password = opts.delete(:sudo_password)
       ssh_conn(Dollhouse.instances[name].ip, opts[:user] || 'root', opts) do
-        p "Executing: #{cmd}"
         exec cmd, {:sudo_password => sudo_password}
       end
-    end
-
-    def boot_new_server(name, callback, opts)
-      raise "You can't, you fool!"
-    end
-
-    def list
-      Dollhouse.instances.online_servers.values.select { |i| i.status == :running }
     end
 
     def write_file(name, path, content, opts)
