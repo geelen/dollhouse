@@ -50,14 +50,6 @@ module Dollhouse
       instance_eval &server.callbacks[task_name]
     end
 
-    def eval_context
-      @eval_context ||= Context.new(self)
-    end
-
-    class Context < Struct.new(:online_server)
-
-    end
-
     def to_yaml
       {instance_name => {'deployment_name' => deployment_name, 'server_name' => server_name, 'ip' => ip}}
     end
