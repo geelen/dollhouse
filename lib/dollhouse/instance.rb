@@ -2,8 +2,8 @@ module Dollhouse
   class Instance < Struct.new(:instance_name, :deployment_name, :server_name, :ip)
     attr_accessor :user, :password
 
-    def bootstrap
-      cloud_adapter.execute(instance_name, %Q{bash -c "`wget -O- babushka.me/up/hard`"}, default_opts)
+    def bootstrap args = []
+      cloud_adapter.execute(instance_name, %Q{bash -c "`wget -O- babushka.me/up/#{[*args].push('hard').uniq.join(',')}`"}, default_opts)
     end
 
     def babushka taskname, vars = {}
