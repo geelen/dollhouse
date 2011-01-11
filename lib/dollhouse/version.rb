@@ -1,3 +1,3 @@
 module Dollhouse
-  VERSION = "0.2.0" unless defined?(Dollhouse::VERSION)
+  VERSION = "0.2.1.pre" unless defined?(Dollhouse::VERSION)
 end
