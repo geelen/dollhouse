@@ -28,6 +28,10 @@ module Dollhouse
       cloud_adapter.write_file(instance_name, path, content, default_opts.merge(opts))
     end
 
+    def locally &blk
+      local_adapter.instance_eval &blk
+    end
+
     def as user, opts = {}, &blk
       old_user = self.user
       old_password = self.password
@@ -72,6 +76,9 @@ module Dollhouse
     # This could return different adapters, that connect to servers in different ways. For now we have a simple
     def cloud_adapter
       @cloud_adapter ||= ManualConfig.new
+    end
+    def local_adapter
+      @local_adapter ||= LocalAdapter.new
     end
   end
 end
