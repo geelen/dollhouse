@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'main',       '~> 4.2.0'
   s.add_dependency 'fog',        '~> 0.2.30'
-  s.add_dependency 'net-ssh',    '~> 2.0.23'
+  s.add_dependency 'net-ssh',    '>= 2.0.23'
   s.add_dependency 'net-sftp',   '~> 2.0.4'
 
   s.add_development_dependency 'cucumber', '~> 0.9.3'

@@ -1,11 +1,11 @@
 PATH
   remote: .
   specs:
-    dollhouse (0.2.0)
+    dollhouse (0.2.1.pre)
       fog (~> 0.2.30)
       main (~> 4.2.0)
       net-sftp (~> 2.0.4)
-      net-ssh (~> 2.0.23)
+      net-ssh (>= 2.0.23)
 
 GEM
   remote: http://rubygems.org/
@@ -66,6 +66,6 @@ DEPENDENCIES
   fog (~> 0.2.30)
   main (~> 4.2.0)
   net-sftp (~> 2.0.4)
-  net-ssh (~> 2.0.23)
+  net-ssh (>= 2.0.23)
   rake (~> 0.8.7)
   rspec (~> 2.0.0)
