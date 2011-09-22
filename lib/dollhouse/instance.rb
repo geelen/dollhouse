@@ -11,12 +11,7 @@ module Dollhouse
       if vars == :no_defaults
         cloud_adapter.execute(instance_name, "babushka '#{taskname}'", default_opts)
       else
-        if !vars.empty?
-          write_file(".babushka/vars/#{taskname}", {
-            :vars => vars.map_keys(&:to_s).map_values { |v| {:value => v} }
-          }.to_yaml)
-        end
-        cloud_adapter.execute(instance_name, "babushka '#{taskname}' --defaults", default_opts)
+        cloud_adapter.execute(instance_name, "babushka '#{taskname}' --defaults #{cmdline_vars(vars)}", default_opts)
       end
     end
 
@@ -71,6 +66,12 @@ module Dollhouse
       opts.merge!({:user => user}) if user
       opts.merge!({:sudo_password => password}) if password
       opts
+    end
+
+    def cmdline_vars vars
+      vars.keys.map {|key|
+        %{#{key}="#{vars[key].strip.gsub('"', '\"')}"}
+      }.join(' ')
     end
 
     # This could return different adapters, that connect to servers in different ways. For now we have a simple
