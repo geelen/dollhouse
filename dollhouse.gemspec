@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'net-ssh',    '>= 2.0.23'
   s.add_dependency 'net-sftp',   '~> 2.0.4'
 
-  s.add_development_dependency 'cucumber', '~> 0.9.3'
-  s.add_development_dependency 'rake',     '~> 0.8.7'
-  s.add_development_dependency 'rspec',    '~> 2.0.0'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
 end

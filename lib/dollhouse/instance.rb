@@ -2,8 +2,8 @@ module Dollhouse
   class Instance < Struct.new(:instance_name, :deployment_name, :server_name, :ip)
     attr_accessor :user, :password
 
-    def bootstrap
-      cloud_adapter.execute(instance_name, %Q{bash -c "`wget -O- babushka.me/up/hard`"}, default_opts)
+    def bootstrap args = []
+      cloud_adapter.execute(instance_name, %Q{bash -c "`wget -O- babushka.me/up/#{[*args].push('hard').uniq.join(',')}`"}, default_opts)
     end
 
     def babushka taskname, vars = {}
@@ -11,12 +11,7 @@ module Dollhouse
       if vars == :no_defaults
         cloud_adapter.execute(instance_name, "babushka '#{taskname}'", default_opts)
       else
-        if !vars.empty?
-          write_file(".babushka/vars/#{taskname}", {
-            :vars => vars.map_keys(&:to_s).map_values { |v| {:value => v} }
-          }.to_yaml)
-        end
-        cloud_adapter.execute(instance_name, "babushka '#{taskname}' --defaults", default_opts)
+        cloud_adapter.execute(instance_name, "babushka '#{taskname}' --defaults #{cmdline_vars(vars)}", default_opts)
       end
     end
 
@@ -26,6 +21,10 @@ module Dollhouse
 
     def write_file path, content, opts = {}
       cloud_adapter.write_file(instance_name, path, content, default_opts.merge(opts))
+    end
+
+    def locally &blk
+      local_adapter.instance_eval &blk
     end
 
     def as user, opts = {}, &blk
@@ -69,9 +68,18 @@ module Dollhouse
       opts
     end
 
+    def cmdline_vars vars
+      vars.keys.map {|key|
+        %{#{key}="#{vars[key].strip.gsub('"', '\"')}"}
+      }.join(' ')
+    end
+
     # This could return different adapters, that connect to servers in different ways. For now we have a simple
     def cloud_adapter
       @cloud_adapter ||= ManualConfig.new
+    end
+    def local_adapter
+      @local_adapter ||= LocalAdapter.new
     end
   end
 end
